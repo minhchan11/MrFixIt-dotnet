@@ -1,43 +1,55 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@* Fix consistency issues *@
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+      ViewData["Title"] =  "Job Board";
 }
+<script>
+    $(document).ready(function () {
+        $(".callout:odd").addClass("secondary");
+        $(".callout:even").addClass("success");
+    })
+</script>
 <div class="text-center">
     <h3>Our Current Jobs</h3>
-    @Html.ActionLink("Add a new job", "Create")
+    <button class="btn btn-block btn-info">@Html.ActionLink("Add a new job", "Create")</button>
 </div>
+<br />
+
 @foreach (var Job in Model)
 {
-    <ul>
-        <li>@Job.Title</li>
+    <div class="callout">
         <ul>
-            <li>@Job.Description</li>
-        </ul>
-        @if (Job.Worker == null)
-        {
-        <li class="btn">This job is unclaimed. @Html.ActionLink("Claim This Job", "Claim", new { @text = @Job.Title, id = Job.JobId })</li>
-        }
-        else
-        {
-            <li class="btn">This Job is claimed by @Job.Worker.FirstName @Job.Worker.LastName <button class="btn btn-info">@Html.ActionLink("Details", "Details", new { id = Job.JobId })</button></li>
-            <ol>
-                <li>Status:@if (@Job.Pending)
-                { <p>Active</p> }
-                else { <p>Inactive</p>}
-                </li>
-                <li>
-                    Completion:@if (@Job.Completed)
+            <li>@Job.Title</li>
+            <ul>
+                <li>@Job.Description</li>
+            </ul>
+            <hr />
+            @if (Job.Worker == null)
+            {
+                <li class="btn">This job is unclaimed. @Html.ActionLink("Claim This Job", "Claim", new { @text = @Job.Title, id = Job.JobId })</li>
+            }
+            else
+            {
+                <li class="btn">This Job is claimed by @Job.Worker.FirstName @Job.Worker.LastName <br /><button class="btn btn-info">@Html.ActionLink("Details", "Details", new { id = Job.JobId })</button></li>
+                // Add on more info about the job
+                <ol>
+                    <li>
+                        Status:@if (@Job.Pending == true )
+                        { <p>Active</p> }
+                        else
+                        { <p>Inactive</p>}
+                    </li>
+                    <li>
+                        Completion:@if (@Job.Completed == true)
                     { <p>Completed</p> }
                     else
                     { <p>Not completed</p>}
-                </li>
-            </ol>
+                    </li>
+                </ol>
 
+            }
+        </ul>
+
+
+        </div>
         }
-    </ul>
-
-
-    <hr />
-}
-

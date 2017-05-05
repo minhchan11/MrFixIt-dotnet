@@ -1,8 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+@* Fix consistency issues *@
 @{
-
+    Layout = "~/Views/Shared/_Layout.cshtml";
+      ViewData["Title"] =  "Create Job";
 }
 
 @model MrFixIt.Models.Job
@@ -12,10 +11,16 @@
         <h4>Add a new job</h4>
         @using (Html.BeginForm())
         {
+           <div class="small-12 columns">
             @Html.LabelFor(model => model.Title)
             @Html.TextBoxFor(model => model.Title, new { @required = "true" })
+            <p class="help-text">Add a title for your new job</p>
+            </div>
+            <div class="small-12 columns">
             @Html.LabelFor(model => model.Description)
             @Html.TextBoxFor(model => model.Description, new { @required = "true" })
-            <input type="submit" value="Add new job" />
+            <p class="help-text">Add a Description for your new job</p>
+            </div>
+            <input type="submit" value="Add new job" class="success button" />
         }
         <p>@Html.ActionLink("Back to list", "Index")</p>

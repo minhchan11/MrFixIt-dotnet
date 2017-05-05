@@ -1,5 +1,12 @@
-﻿<script>
+﻿@* Fix consistency issues *@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+      ViewData["Title"] =  "Details";
+}
+
+<script>
     $(document).ready(function () {
+      //AJAX CALL TO MARK A TASK AS BEING ACTIVELY WORKED ON
         $(".togglePending").submit(function (event) {
             event.preventDefault();
             $.ajax({
@@ -10,15 +17,18 @@
                 success: function (result) {
                     if(result.pending == true)
                     {
-                       $("#pending").text("Active")
+                        $("#pending").text("Active");
+                        $("#pendingButton").text("Mark Inactive").toggleClass("btn-warning btn-info");
                     } else {
-                        $("#pending").text("Inactive")
+                        $("#pending").text("Inactive");
+                        $("#pendingButton").text("Mark Active").toggleClass("btn-warning btn-info");
                     }
                 }
             });
 
         });
         $(".toggleComplete").submit(function (event) {
+          //AJAX CALL TO MARK A TASK AS BEING ACTIVELY WORKED ON
             event.preventDefault();
             $.ajax({
                 url: '@Url.Action("ToggleComplete")',
@@ -26,10 +36,12 @@
                 dataType: 'json',
                 data: $(this).serialize(),
                 success: function (result) {
-                    if (result.pending == true) {
-                        $("#complete").text("Completed")
+                    if (result.completed == true) {
+                        $("#complete").text("Completed");
+                        $("#completeButton").text("Mark Incomplete").toggleClass("btn-danger btn-success");
                     } else {
-                        $("#complete").text("Incomplete")
+                        $("#complete").text("Incomplete");
+                        $("#completeButton").text("Mark Complete").toggleClass("btn-danger btn-success");
                     }
                 }
             });
@@ -38,43 +50,52 @@
 </script>
 @model MrFixIt.Models.Job
 
-<h2>Would you like to do this job?</h2>
+<h2>JOB DETAILS</h2>
 <h4>@Model.Title</h4>
 <h5>@Model.Description</h5>
-<h6>Status:<span id="pending">@if (Model.Pending)
-{ <span>Active</span> }
-else
-{ <span>Inactive</span>}</span></h6>
+<div class="callout secondary">
+    <h6>
+        Status:<span id="pending">
+            @if (Model.Pending)
+        { <span>Active</span> }
+        else
+        { <span>Inactive</span>}
+    </span>
+</h6>
 <h6>
     Completed:<span id="complete">
         @if (Model.Completed)
-    { <span>Completed</span> }
-    else
-    { <span>Incomplete</span>}
-</span>
+        { <span>Completed</span> }
+        else
+        { <span>Incomplete</span>}
+    </span>
 </h6>
 <form action="TogglePending" class="togglePending">
     <input type="hidden" name="jobId" value="@Model.JobId" />
+    @*Add id to change appearance and text of button on submit*@
     @if (Model.Pending)
     {
-        <button type="submit">Mark Inactive</button>
+        <button type="submit" class="btn btn-block btn-warning" id="pendingButton">Mark Inactive</button>
     }
     else
     {
-        <button type="submit">Mark Active</button>
+        <button type="submit" class="btn btn-block btn-info" id="pendingButton">Mark Active</button>
     }
 
 </form>
 
 <form action="ToggleComplete" class="toggleComplete">
     <input type="hidden" name="jobId" value="@Model.JobId" />
+    @*Add id to change appearance and text of button on submit*@
     @if (Model.Completed)
     {
-        <button type="submit">Mark Incomplete</button>
+        <button type="submit" class="btn btn-block btn-danger" id="completeButton">Mark Incomplete</button>
     }
     else
     {
-        <button type="submit">Mark Complete</button>
+        <button type="submit" class="btn btn-block btn-success" id="completeButton">Mark Complete</button>
     }
 </form>
+
+</div>
 <p>@Html.ActionLink("Back to list", "Index")</p>

@@ -33,10 +33,11 @@ namespace MrFixIt.Controllers
             return RedirectToAction("Index");
         }
 
+        //Change all 'item' to 'job'
         public IActionResult Claim(int id)
         {
-            var thisItem = db.Jobs.FirstOrDefault(items => items.JobId == id);
-            return View(thisItem);
+            var thisJob = db.Jobs.FirstOrDefault(jobs => jobs.JobId == id);
+            return View(thisJob);
         }
 
         [HttpPost]
@@ -45,7 +46,7 @@ namespace MrFixIt.Controllers
 
             //job.Worker = db.Workers.FirstOrDefault(i => i.UserName == User.Identity.Name);
             //Since Ajax is used, the parameters should be changed to int and string
-            var thisJob = db.Jobs.FirstOrDefault(items => items.JobId == jobId);
+            var thisJob = db.Jobs.FirstOrDefault(jobs => jobs.JobId == jobId);
             thisJob.Worker = db.Workers.FirstOrDefault(i => i.UserName == userName);
             db.Entry(thisJob).State = EntityState.Modified;
             db.SaveChanges();
@@ -55,7 +56,7 @@ namespace MrFixIt.Controllers
         //Create new get method for detail page
         public IActionResult Details(int id)
         {
-            var thisJob = db.Jobs.FirstOrDefault(items => items.JobId == id);
+            var thisJob = db.Jobs.FirstOrDefault(jobs => jobs.JobId == id);
             return View(thisJob);
         }
 
@@ -63,21 +64,21 @@ namespace MrFixIt.Controllers
         [HttpPost]
         public IActionResult TogglePending(int jobId)
         {
-            var thisJob = db.Jobs.FirstOrDefault(items => items.JobId == jobId);
+            var thisJob = db.Jobs.FirstOrDefault(jobs => jobs.JobId == jobId);
             if (thisJob.Pending == true)
             {
                 thisJob.Pending = false;
             } else { thisJob.Pending = true; };
             db.Entry(thisJob).State = EntityState.Modified;
             db.SaveChanges();
-            var editedJob = db.Jobs.FirstOrDefault(items => items.JobId == jobId);
+            var editedJob = db.Jobs.FirstOrDefault(jobs => jobs.JobId == jobId);
             return Json(editedJob);
         }
 
         [HttpPost]
         public IActionResult ToggleComplete(int jobId)
         {
-            var thisJob = db.Jobs.FirstOrDefault(items => items.JobId == jobId);
+            var thisJob = db.Jobs.FirstOrDefault(jobs => jobs.JobId == jobId);
             if (thisJob.Completed == true)
             {
                 thisJob.Completed = false;
@@ -85,7 +86,7 @@ namespace MrFixIt.Controllers
             else { thisJob.Completed = true; };
             db.Entry(thisJob).State = EntityState.Modified;
             db.SaveChanges();
-            var editedJob = db.Jobs.FirstOrDefault(items => items.JobId == jobId);
+            var editedJob = db.Jobs.FirstOrDefault(jobs => jobs.JobId == jobId);
             return Json(editedJob);
         }
     }

@@ -1,3 +1,7 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+      ViewData["Title"] =  "Claim job";
+}
 ﻿@*Replace .NET action with AJAX*@
 <script>
     $(document).ready(function () {
@@ -25,12 +29,12 @@
     @Html.HiddenFor(model => model.JobId)
     @Html.HiddenFor(model => model.Title)
     @Html.HiddenFor(model => model.Description)
-    
+
 }*@
 <h4>@Model.Title</h4>
 <form action="Claim" class="claimForm">
     <input type="hidden" name="jobId" value="@Model.JobId" />
     <input type="hidden" name="userName" value="@User.Identity.Name" />
-    <button type="submit" value="Claim This Job">Claim</button>
+    <button type="submit" value="Claim This Job" class="btn btn-success">Claim</button>
 </form>
 <p>@Html.ActionLink("Back to list", "Index")</p>

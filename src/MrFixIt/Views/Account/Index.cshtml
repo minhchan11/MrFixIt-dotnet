@@ -1,8 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+@* Fix consistency issues *@
 @{
-    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+      ViewData["Title"] =  "Account";
 }
 
 @using System.Security.Claims
@@ -18,6 +17,3 @@
     <p>@Html.ActionLink("Register", "Register")</p>
     <p>@Html.ActionLink("Log in", "Login")</p>
 }
-
-
-
