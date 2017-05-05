@@ -1,1 +1,1 @@
-﻿var test = "it works";
+﻿

@@ -68,7 +68,7 @@ namespace MrFixIt.Migrations
                 {
                     WorkerId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Avaliable = table.Column<bool>(nullable: false),
+                    Avalaible = table.Column<bool>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     UserName = table.Column<string>(nullable: true)
