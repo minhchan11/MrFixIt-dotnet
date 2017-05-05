@@ -27,6 +27,20 @@
             @if (Job.Worker == null)
             {
                 <li class="btn">This job is unclaimed. @Html.ActionLink("Claim This Job", "Claim", new { @text = @Job.Title, id = Job.JobId })</li>
+                <ol>
+                    <li>
+                        Status:@if (@Job.Pending == true)
+                        { <p>Active</p> }
+                        else
+                        { <p>Inactive</p>}
+                    </li>
+                    <li>
+                        Completion:@if (@Job.Completed == true)
+                    { <p>Completed</p> }
+                    else
+                    { <p>Not completed</p>}
+                    </li>
+                </ol>
             }
             else
             {
