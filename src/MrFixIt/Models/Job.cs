@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,7 +15,11 @@ namespace MrFixIt.Models
         public bool Completed { get; set; }
         public bool Pending { get; set; }
         public virtual Worker Worker { get; set; }
-
+        public Job()
+        {
+            Completed = false;
+            Pending = false;
+        }
         public Worker FindWorker(string UserName)
         {
             Worker thisWorker = new MrFixItContext().Workers.FirstOrDefault(i => i.UserName == UserName);

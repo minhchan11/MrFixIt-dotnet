@@ -1,0 +1,80 @@
+﻿<script>
+    $(document).ready(function () {
+        $(".togglePending").submit(function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: '@Url.Action("TogglePending")',
+                type: 'POST',
+                dataType: 'json',
+                data: $(this).serialize(),
+                success: function (result) {
+                    if(result.pending == true)
+                    {
+                       $("#pending").text("Active")
+                    } else {
+                        $("#pending").text("Inactive")
+                    }
+                }
+            });
+
+        });
+        $(".toggleComplete").submit(function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: '@Url.Action("ToggleComplete")',
+                type: 'POST',
+                dataType: 'json',
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.pending == true) {
+                        $("#complete").text("Completed")
+                    } else {
+                        $("#complete").text("Incomplete")
+                    }
+                }
+            });
+        });
+    })
+</script>
+@model MrFixIt.Models.Job
+
+<h2>Would you like to do this job?</h2>
+<h4>@Model.Title</h4>
+<h5>@Model.Description</h5>
+<h6>Status:<span id="pending">@if (Model.Pending)
+{ <span>Active</span> }
+else
+{ <span>Inactive</span>}</span></h6>
+<h6>
+    Completed:<span id="complete">
+        @if (Model.Completed)
+    { <span>Completed</span> }
+    else
+    { <span>Incomplete</span>}
+</span>
+</h6>
+<form action="TogglePending" class="togglePending">
+    <input type="hidden" name="jobId" value="@Model.JobId" />
+    @if (Model.Pending)
+    {
+        <button type="submit">Mark Inactive</button>
+    }
+    else
+    {
+        <button type="submit">Mark Active</button>
+    }
+
+</form>
+
+<form action="ToggleComplete" class="toggleComplete">
+    <input type="hidden" name="jobId" value="@Model.JobId" />
+    @if (Model.Completed)
+    {
+        <button type="submit">Mark Incomplete</button>
+    }
+    else
+    {
+        <button type="submit">Mark Complete</button>
+    }
+</form>
+<p>@Html.ActionLink("Back to list", "Index")</p>

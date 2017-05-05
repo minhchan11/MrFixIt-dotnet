@@ -42,11 +42,51 @@ namespace MrFixIt.Controllers
         [HttpPost]
         public IActionResult Claim(int jobId, string userName)
         {
+
+            //job.Worker = db.Workers.FirstOrDefault(i => i.UserName == User.Identity.Name);
+            //Since Ajax is used, the parameters should be changed to int and string
             var thisJob = db.Jobs.FirstOrDefault(items => items.JobId == jobId);
             thisJob.Worker = db.Workers.FirstOrDefault(i => i.UserName == userName);
             db.Entry(thisJob).State = EntityState.Modified;
             db.SaveChanges();
             return Json(thisJob.Worker);
+        }
+
+        //Create new get method for detail page
+        public IActionResult Details(int id)
+        {
+            var thisJob = db.Jobs.FirstOrDefault(items => items.JobId == id);
+            return View(thisJob);
+        }
+
+        //Create new post methods for detail page using Ajax
+        [HttpPost]
+        public IActionResult TogglePending(int jobId)
+        {
+            var thisJob = db.Jobs.FirstOrDefault(items => items.JobId == jobId);
+            if (thisJob.Pending == true)
+            {
+                thisJob.Pending = false;
+            } else { thisJob.Pending = true; };
+            db.Entry(thisJob).State = EntityState.Modified;
+            db.SaveChanges();
+            var editedJob = db.Jobs.FirstOrDefault(items => items.JobId == jobId);
+            return Json(editedJob);
+        }
+
+        [HttpPost]
+        public IActionResult ToggleComplete(int jobId)
+        {
+            var thisJob = db.Jobs.FirstOrDefault(items => items.JobId == jobId);
+            if (thisJob.Completed == true)
+            {
+                thisJob.Completed = false;
+            }
+            else { thisJob.Completed = true; };
+            db.Entry(thisJob).State = EntityState.Modified;
+            db.SaveChanges();
+            var editedJob = db.Jobs.FirstOrDefault(items => items.JobId == jobId);
+            return Json(editedJob);
         }
     }
 }
